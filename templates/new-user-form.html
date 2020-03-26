@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}
-  {{title}}
-{% endblock %}
+{% block title %}<h1>{{title}}</h1>{% endblock %}
 
 {% block content %}
 
 
-<form action="/users/new" method="POST">
+<form method="POST">
   First Name<br><input type="text" class="first-name" name="first-name"><br>
   Last Name<br><input type="text" class="last-name" name="last-name"><br>
   Image URL<br><input type="text" class="image-url" name="image-url"><br>
