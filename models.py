@@ -30,6 +30,7 @@ def update_user(id, first_name, last_name, image_url):
     "collects updated user info and commits to DB"
 
     user = User.query.filter(User.id == int(id)).one()
+    # get or 404
 
     user.first_name = first_name
     user.last_name = last_name
@@ -45,8 +46,10 @@ def update_user(id, first_name, last_name, image_url):
 def delete_user(id):
     "delete a user and commit to DB"
 
-    User.query.filter(User.id == id).delete()
+    user = User.query.get_or_404(int(id))
+    # filter(User.id == int(user_id)) # this doesn't work
 
+    db.session.delete(user)
     db.session.commit()
 
 

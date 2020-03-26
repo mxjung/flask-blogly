@@ -55,6 +55,7 @@ def show_user(user_id):
     "generate user detail page"
 
     user = User.query.filter(User.id == int(user_id)).one()
+    # get_or_404 (user here)
 
     return render_template('user-detail-page.html',
                            title=f"{user.first_name} {user.last_name}",
@@ -65,6 +66,7 @@ def show_user(user_id):
 def edit_user(user_id):
 
     user = User.query.filter(User.id == int(user_id)).one()
+    # get_or_404 (user here)
 
     return render_template('user-edit.html',
                            title=f"{user.first_name} {user.last_name}",
@@ -84,11 +86,16 @@ def store_edits(user_id):
     return redirect('/users')
 
 
-@app.route('/users/<user_id>/delete', methods=['DELETE'])
+@app.route('/users/<user_id>/delete', methods=['POST'])
 def delete_user(user_id):
     "Delete the user"
+    # delete_user(user_id)
 
-    delete_user(user_id)
+    user = User.query.get_or_404(int(user_id))
+    # filter(User.id == int(user_id)) # this doesn't work
+    
+    db.session.delete(user)
+    db.session.commit()
 
     flash("User deleted.")
-    return redirect('/')
+    return redirect('/users')
