@@ -55,6 +55,26 @@ def delete_user(id):
     db.session.commit()
 
 
+def submit_post(user_id, title, content):
+    "submit post to DB"
+
+    post = Post(title=title, content=content, user_id=user_id)
+
+    db.session.add(post)
+    db.session.commit()
+
+
+def edit_submit_post(post_id, title, content):
+    "submit edited post to DB"
+
+    post = Post.query.get(post_id)
+
+    post.title = title
+    post.content = content
+
+    db.session.commit()
+
+
 class User(db.Model):
     '''User'''
 
@@ -65,7 +85,7 @@ class User(db.Model):
     last_name = db.Column(db.String, nullable=False)
     image_url = db.Column(db.String, default='https://i.imgur.com/XVicMmG.jpg')
 
-    # posts = db.relationship('Post', backref='users')
+    posts = db.relationship('Post', backref='users')
 
 
 class Post(db.Model):
